@@ -1,0 +1,2 @@
+pypdf>=5,<7
+rapidocr>=3.10,<4

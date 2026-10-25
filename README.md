@@ -155,3 +155,25 @@ Before submitting, confirm that:
 - `code.zip` includes your runnable code, `README.md`, `code/evaluation/evaluation_report.md`, and `code/evaluation/usage_report.md`;
 - `log.txt` follows the `AGENTS.md` turn format and is uploaded to the `chat_transcript` slot; and
 - no API keys, credentials, real personal data, or sensitive configuration values are included.
+
+## Running the implemented auditor
+
+The Python implementation in `code/main.py` reads participant-facing files from
+`dataset/`, evaluates each request at its `audit_at` cutoff, and writes the
+validated result to the repository-root `output.csv`.
+
+Install the dependencies and run the auditor from the repository root:
+
+```powershell
+python -m pip install -r code/requirements.txt
+python code/main.py
+python code/evaluation/main.py
+```
+
+The auditor parses CSV, JSON, SQL, text, logs, PDFs, and screenshots. It uses
+RapidOCR locally for screenshot text; its first run may download OCR model
+files. Tesseract is used instead when installed and discoverable on `PATH`.
+No hosted language model or external inference API is called. The evaluation
+runner validates output shape and reports measured agreement with the public
+sample answers; it cannot measure hidden-set accuracy without the organizer's
+answer key.
